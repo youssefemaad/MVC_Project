@@ -2,7 +2,7 @@
 
 namespace MVC.ADataAccess.Data.Context
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)  //New feature C# 12
     {
         //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)  //before C# 12
         //{
