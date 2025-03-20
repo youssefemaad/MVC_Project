@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using MVC.ADataAccess.Data.Context;
+
 namespace MVC.Presemtation
 {
     public class Program
@@ -8,6 +11,11 @@ namespace MVC.Presemtation
 
             #region Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                //options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);    option 1
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // option 2
+            });
 
             #endregion
 
