@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MVC.ADataAccess.Data.Context;
 using MVC.ADataAccess.Repositories;
+using MVC.BusinessLogic.Services;
 
 namespace MVC.Presemtation
 {
@@ -18,6 +19,7 @@ namespace MVC.Presemtation
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // option 2
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); //New feature C# 12
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>(); //New feature C# 12
             #endregion
 
             var app = builder.Build();
@@ -35,7 +37,7 @@ namespace MVC.Presemtation
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

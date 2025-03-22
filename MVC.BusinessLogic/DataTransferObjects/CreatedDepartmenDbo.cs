@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVC.ADataAccess.Models
+namespace MVC.BusinessLogic.DataTransferObjects
 {
-    public class Department: BaseEntity
+    public class CreatedDepartmenDbo
     {
         public string Name { get; set; } = null!;
         public string Code { get; set; } = null!;
-        public string Description { get; set;}
+        public string Description { get; set; } = null!;
+        public DateOnly DateOfCreation { get; set; }
     }
 }
