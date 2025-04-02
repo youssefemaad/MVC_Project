@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.Factories
 {
-    internal class EmployeeFactory
+    public class EmployeeFactory
     {
     }
 }

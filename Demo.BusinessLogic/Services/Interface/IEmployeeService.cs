@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Demo.BusinessLogic.DataTransferObjects.EmployeeDataTransfer;
 
 namespace Demo.BusinessLogic.Services.Interface
 {
-    public class IEmployeeService
+    public interface IEmployeeService
     {
         IEnumerable<EmployeeDto> GetAllEmployees(bool WithTracking);
         EmployeeDetailsDto GetEmployeeById(int id);
