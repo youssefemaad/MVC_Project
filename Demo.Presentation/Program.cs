@@ -1,4 +1,6 @@
-using Demo.BusinessLogic.Services;
+using Demo.BusinessLogic.Profiles;
+using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.Interface;
 using Demo.DataAccess.Data.DbContexts;
 using Demo.DataAccess.Repositories.Classes;
 using Demo.DataAccess.Repositories.Interfaces;
@@ -22,7 +24,12 @@ namespace Demo.Presentation
            
             builder.Services.AddScoped<IDepartmentRepository , DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService , DepartmentService>();
-            
+
+            builder.Services.AddScoped<IEmployeeRepository , EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService , EmployeeService>();
+
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
