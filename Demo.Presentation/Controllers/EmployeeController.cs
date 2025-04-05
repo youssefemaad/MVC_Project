@@ -115,5 +115,39 @@ namespace Demo.Presentation.Controllers
         }
 
         #endregion
+
+        #region Delete Employee
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (id == 0) return BadRequest();
+            try
+            {
+                var Deleted = employeeService.DeleteEmployee(id);
+                if (Deleted)
+                    return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Employee not Deleted");
+                    return RedirectToAction(nameof(Delete), new { id = id });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                if (environment.IsDevelopment())
+                {
+                    return RedirectToAction(nameof(Index));
+                    // With Message That Department Not Deleted  
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return View("Error", ex);
+                }
+            }
+        }
+
+        #endregion
     }
 }
