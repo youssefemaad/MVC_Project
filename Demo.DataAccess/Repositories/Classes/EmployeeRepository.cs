@@ -16,5 +16,6 @@ namespace Demo.DataAccess.Repositories.Classes
 			
 		}
 
-	}
+        
+    }
 }

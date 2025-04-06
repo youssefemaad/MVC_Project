@@ -21,12 +21,18 @@ namespace Demo.DataAccess.Repositories.Classes
 		}
 
 		public TEntity? GetById(int id) => _dbContext.Set<TEntity>().Find(id);
+
 		public int Remove(TEntity entity)
 		{
 			_dbContext.Set<TEntity>().Remove(entity);
 			return _dbContext.SaveChanges();
 		}
 
+		public IEnumerable<TResult> GetAll<TResult>(System.Linq.Expressions.Expression<Func<TEntity, TResult>> selector)
+		{
+			return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true)
+											.Select(selector).ToList();
+		}
 		public int Update(TEntity entity)
 		{
 			_dbContext.Set<TEntity>().Update(entity);
