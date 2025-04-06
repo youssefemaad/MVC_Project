@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace Demo.DataAccess.Repositories.Interfaces
 {
-	public interface IEmployeeRepository
-	{
-		int Add(Employee employee);
-		IEnumerable<Employee> GetAll(bool withTracking = false);
-		Employee? GetById(int id);
-		int Remove(Employee employee);
-		int Update(Employee employee);
-
-	}
+    public interface IEmployeeRepository
+    {
+        int Add(Employee employee);
+        IEnumerable<Employee> GetAll(bool withTracking = false);
+        Employee? GetById(int id);
+        int Remove(Employee employee);
+        int Update(Employee employee);
+    }
 }
