@@ -2,8 +2,10 @@ using Demo.BusinessLogic.DataTransferObjects.DepartmentDataTransfer;
 using Demo.BusinessLogic.DataTransferObjects.EmployeeDataTransfer;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interface;
+using Demo.DataAccess.Models;
 using Demo.DataAccess.Models.EmployeeModel;
 using Demo.DataAccess.Models.Shared.Enums;
+using Demo.Presentation.ViewModels;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,15 +25,29 @@ namespace Demo.Presentation.Controllers
         #region Create Employee
         public IActionResult Create()
         {
-            return View();
+            var model = new EmployeeEditViewModel();
+            return View(model);
         }
         [HttpPost]
-        public IActionResult Create(CreateEmployeeDto employeeDto)
+        public IActionResult Create(EmployeeEditViewModel employeeEditView)
         {
             if (ModelState.IsValid) // Server Side Validation
             {
                 try
                 {
+                    var employeeDto = new CreateEmployeeDto()
+                    {
+                        Age = employeeEditView.Age,
+                        Name = employeeEditView.Name,
+                        Email = employeeEditView.Email,
+                        Salary = employeeEditView.Salary,
+                        Address = employeeEditView.Address,
+                        IsActive = employeeEditView.IsActive,
+                        HiringDate = employeeEditView.HiringDate,
+                        PhoneNumber = employeeEditView.PhoneNumber,
+                        Gender = Enum.Parse<Gender>(employeeEditView.Gender.ToString()),
+                        EmployeeType = Enum.Parse<EmployeeType>(employeeEditView.EmployeeType.ToString())
+                    };
                     int Result = employeeService.CreateEmployee(employeeDto);
                     if (Result > 0)
                         return RedirectToAction(nameof(Index));
@@ -49,8 +65,9 @@ namespace Demo.Presentation.Controllers
                         _logger.LogError(ex.Message);
                 }
             }
-            return View(employeeDto);
-        }
+                return View(employeeEditView);
+            }
+    
         #endregion
 
         #region Details Of Employee
@@ -72,7 +89,7 @@ namespace Demo.Presentation.Controllers
             var employee = employeeService.GetEmployeeById(id.Value);
             if (employee == null) return NotFound(); // 404
 
-            var employeeDto = new UpdatedEmployeeDto()
+            var employeeEditViewModel = new EmployeeEditViewModel()
             {
                 Id = employee.Id,
                 Age = employee.Age,
@@ -86,16 +103,31 @@ namespace Demo.Presentation.Controllers
                 Gender = Enum.Parse<Gender>(employee.Gender),
                 EmployeeType = Enum.Parse<EmployeeType>(employee.EmployeeType)
             };
-            return View(employeeDto);
+            return View(employeeEditViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int? id, UpdatedEmployeeDto employeeDto)
+        public IActionResult Edit([FromRoute] int? id, EmployeeEditViewModel employeeEditView)
         {
-            if (!id.HasValue || id != employeeDto.Id) return BadRequest();
-            if (!ModelState.IsValid) return View(employeeDto);
+            if (!id.HasValue || id != employeeEditView.Id) return BadRequest();
+            if (!ModelState.IsValid) return View(employeeEditView);
             try
             {
+                var employeeDto = new UpdatedEmployeeDto()
+                {
+                    Id = id.Value,
+                    Name = employeeEditView.Name,
+                    Age = employeeEditView.Age,
+                    Email = employeeEditView.Email,
+                    Salary = employeeEditView.Salary,
+                    Address = employeeEditView.Address,
+                    IsActive = employeeEditView.IsActive,
+                    HiringDate = employeeEditView.HiringDate,
+                    PhoneNumber = employeeEditView.PhoneNumber,
+                    Gender = employeeEditView.Gender,
+                    EmployeeType = employeeEditView.EmployeeType
+
+                };
                 int Result = employeeService.UpdateEmployee(employeeDto);
                 if (Result > 0)
                     return RedirectToAction(nameof(Index));
@@ -111,7 +143,7 @@ namespace Demo.Presentation.Controllers
                 else
                     _logger.LogError(ex.Message);
             }
-            return View(employeeDto);
+            return View(employeeEditView);
         }
 
         #endregion

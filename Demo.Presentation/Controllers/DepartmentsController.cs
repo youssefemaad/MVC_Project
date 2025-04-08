@@ -25,13 +25,20 @@ namespace Demo.Presentation.Controllers
 
 
 		[HttpPost]
-		public IActionResult Create(CreatedDepartmentDto departmentDto)
+		public IActionResult Create(DepartmentEditViewModel departmentEditView)
 		{
 			if (ModelState.IsValid) // Server Side Validation
 			{
 				try
 				{
-					int Result = _departmentService.CreateDepartment(departmentDto);
+                    var departmentDto = new CreatedDepartmentDto()
+                    {
+                        Code = departmentEditView.Code,
+                        DateOfCreation = departmentEditView.DateOfCreation,
+                        Description = departmentEditView.Description,
+                        Name = departmentEditView.Name
+                    };
+                    int Result = _departmentService.CreateDepartment(departmentDto);
 					if (Result > 0)
 						return RedirectToAction(nameof(Index));
 					else
@@ -48,7 +55,7 @@ namespace Demo.Presentation.Controllers
 						_logger.LogError(ex.Message);
 				}
 			}
-			return View(departmentDto);
+			return View(departmentEditView);
 		}
 		#endregion
 
