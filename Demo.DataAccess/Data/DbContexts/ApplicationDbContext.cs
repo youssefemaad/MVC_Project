@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Demo.DataAccess.Data.DbContexts
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
-    {
+	public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+	{
 
-		
+
 		//protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		//{
 		//	optionsBuilder.UseSqlServer("");
@@ -25,7 +25,6 @@ namespace Demo.DataAccess.Data.DbContexts
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Ignore<BaseEntity>();
-
 			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 			//modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
