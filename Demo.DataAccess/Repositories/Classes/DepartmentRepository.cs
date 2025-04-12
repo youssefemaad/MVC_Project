@@ -11,8 +11,5 @@ namespace Demo.DataAccess.Repositories.Classes
 {
 	public class DepartmentRepository(ApplicationDbContext dbContext) : GenericRepository<Department>(dbContext) , IDepartmentRepository
 	{ 
-
-
 	}
-
 }

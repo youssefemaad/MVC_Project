@@ -5,7 +5,7 @@ namespace Demo.BusinessLogic.Services.Interface
 {
     public interface IEmployeeService
     {
-        IEnumerable<EmployeeDto> GetAllEmployees(bool WithTracking);
+        IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName);
         EmployeeDetailsDto GetEmployeeById(int id);
         int CreateEmployee(CreateEmployeeDto employeeDto);
         int UpdateEmployee(UpdatedEmployeeDto employeeDto);

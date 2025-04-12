@@ -9,13 +9,7 @@ using System.Threading.Tasks;
 
 namespace Demo.DataAccess.Repositories.Classes
 {
-	public class EmployeeRepository : GenericRepository<Employee> , IEmployeeRepository
+	public class EmployeeRepository(ApplicationDbContext dbContext) : GenericRepository<Employee>(dbContext), IEmployeeRepository
     {
-		public EmployeeRepository(ApplicationDbContext dbContext):base(dbContext)
-		{
-			
-		}
-
-        
     }
 }

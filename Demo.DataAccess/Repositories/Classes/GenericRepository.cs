@@ -1,6 +1,7 @@
 ﻿using Demo.DataAccess.Data.DbContexts;
 using Demo.DataAccess.Models.Shared;
 using Demo.DataAccess.Repositories.Interfaces;
+using System.Linq.Expressions;
 
 namespace Demo.DataAccess.Repositories.Classes
 {
@@ -28,10 +29,21 @@ namespace Demo.DataAccess.Repositories.Classes
 			return _dbContext.SaveChanges();
 		}
 
-		public IEnumerable<TResult> GetAll<TResult>(System.Linq.Expressions.Expression<Func<TEntity, TResult>> selector)
+
+		public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
 		{
-			return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true)
-											.Select(selector).ToList();
+			return _dbContext.Set<TEntity>()
+				.Where(e => !e.IsDeleted)
+				.Select(selector)
+				.ToList();
+		}
+
+		public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
+		{
+			return _dbContext.Set<TEntity>()
+				.Where(predicate)
+				.Where(e => !e.IsDeleted)
+				.ToList();
 		}
 		public int Update(TEntity entity)
 		{
