@@ -5,18 +5,18 @@ namespace Demo.DataAccess.Repositories.Classes;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private IDepartmentRepository _departmentRepository;
-    private IEmployeeRepository _employeeRepository;
     private readonly ApplicationDbContext _dbContext;
+    private readonly Lazy<IDepartmentRepository> _departmentRepository;
+    private readonly Lazy<IEmployeeRepository> _employeeRepository;
     public UnitOfWork (DepartmentRepository departmentRepository, IEmployeeRepository employeeRepository, ApplicationDbContext dbContext)
     {
-        _employeeRepository = employeeRepository;
-        _departmentRepository = departmentRepository;
         this._dbContext = dbContext;
+        _employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(dbContext));
+        _departmentRepository = new Lazy<IDepartmentRepository>(() => new DepartmentRepository(dbContext));
     }
 
-    public IEmployeeRepository EmployeeRepository => throw new NotImplementedException();
-    public IDepartmentRepository DepartmentRepository => throw new NotImplementedException();
+    public IEmployeeRepository EmployeeRepository => _employeeRepository.Value;
+    public IDepartmentRepository DepartmentRepository => _departmentRepository.Value;
 
     public int SaveChanges()
     {
