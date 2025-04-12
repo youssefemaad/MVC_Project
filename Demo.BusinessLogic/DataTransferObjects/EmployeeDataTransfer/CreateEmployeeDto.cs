@@ -33,5 +33,6 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDataTransfer
         public Gender Gender { get; set; }
 
         public EmployeeType EmployeeType { get; set; }
+        public int? DeptId { get; set; }
     }
 }

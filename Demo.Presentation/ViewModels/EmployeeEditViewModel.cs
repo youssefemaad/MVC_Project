@@ -1,5 +1,6 @@
 using Demo.DataAccess.Models.EmployeeModel;
 using Demo.DataAccess.Models.Shared.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Presentation.ViewModels
 {
@@ -16,5 +17,8 @@ namespace Demo.Presentation.ViewModels
         public bool IsActive { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+
+        [Display(Name = "DepartmentId")]
+        public int? DeptId { get; set; }
     }
 }

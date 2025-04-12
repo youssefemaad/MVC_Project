@@ -16,9 +16,9 @@ namespace Demo.Presentation.Controllers
         , ILogger<DepartmentsController> _logger,
         IWebHostEnvironment environment) : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string? EmployeeSearchName)
         {
-            var employees = employeeService.GetAllEmployees(true);
+            var employees = employeeService.GetAllEmployees(EmployeeSearchName);
             return View(employees);
         }
 
@@ -41,6 +41,7 @@ namespace Demo.Presentation.Controllers
                         Name = employeeEditView.Name,
                         Email = employeeEditView.Email,
                         Salary = employeeEditView.Salary,
+                        DeptId = employeeEditView.DeptId,
                         Address = employeeEditView.Address,
                         IsActive = employeeEditView.IsActive,
                         HiringDate = employeeEditView.HiringDate,
@@ -96,6 +97,7 @@ namespace Demo.Presentation.Controllers
                 Name = employee.Name,
                 Email = employee.Email,
                 Salary = employee.Salary,
+                DeptId = employee.DeptId,
                 Address = employee.Address,
                 IsActive = employee.IsActive,
                 HiringDate = employee.HiringDate,
@@ -109,16 +111,17 @@ namespace Demo.Presentation.Controllers
         [HttpPost]
         public IActionResult Edit([FromRoute] int? id, EmployeeEditViewModel employeeEditView)
         {
-            if (!id.HasValue || id != employeeEditView.Id) return BadRequest();
+            if (!id.HasValue) return BadRequest();
             if (!ModelState.IsValid) return View(employeeEditView);
             try
             {
                 var employeeDto = new UpdatedEmployeeDto()
                 {
                     Id = id.Value,
-                    Name = employeeEditView.Name,
                     Age = employeeEditView.Age,
+                    Name = employeeEditView.Name,
                     Email = employeeEditView.Email,
+                    DeptId = employeeEditView.DeptId,
                     Salary = employeeEditView.Salary,
                     Address = employeeEditView.Address,
                     IsActive = employeeEditView.IsActive,
