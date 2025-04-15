@@ -1,8 +1,11 @@
-namespace Demo.DataAccess.Repositories.Interfaces;
+using System;
 
-public interface IUnitOfWork
+namespace Demo.DataAccess.Repositories.Interfaces
 {
-    public IEmployeeRepository EmployeeRepository { get; }
-    public IDepartmentRepository DepartmentRepository { get; }
-    public int SaveChanges();
+    public interface IUnitOfWork
+    {
+        IEmployeeRepository EmployeeRepository { get; }
+        IDepartmentRepository DepartmentRepository { get; }
+        int SaveChanges();
+    }
 }

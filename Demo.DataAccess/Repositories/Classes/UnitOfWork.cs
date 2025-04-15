@@ -8,11 +8,12 @@ public class UnitOfWork : IUnitOfWork
     private readonly ApplicationDbContext _dbContext;
     private readonly Lazy<IDepartmentRepository> _departmentRepository;
     private readonly Lazy<IEmployeeRepository> _employeeRepository;
-    public UnitOfWork (DepartmentRepository departmentRepository, IEmployeeRepository employeeRepository, ApplicationDbContext dbContext)
+
+    public UnitOfWork(ApplicationDbContext dbContext, IDepartmentRepository departmentRepository, IEmployeeRepository employeeRepository)
     {
-        this._dbContext = dbContext;
-        _employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(dbContext));
-        _departmentRepository = new Lazy<IDepartmentRepository>(() => new DepartmentRepository(dbContext));
+        _dbContext = dbContext;
+        _departmentRepository = new Lazy<IDepartmentRepository>(() => departmentRepository);
+        _employeeRepository = new Lazy<IEmployeeRepository>(() => employeeRepository);
     }
 
     public IEmployeeRepository EmployeeRepository => _employeeRepository.Value;

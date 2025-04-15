@@ -21,22 +21,20 @@ namespace Demo.Presentation
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
-            builder.Services.AddDbContext<ApplicationDbContext>(Options=>
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
-                Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-                Options.UseLazyLoadingProxies();
-            }); // Register Service in DI Container
-           
-            builder.Services.AddScoped<IDepartmentRepository , DepartmentRepository>();
-            builder.Services.AddScoped<IDepartmentService , DepartmentService>();
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseLazyLoadingProxies();
+            });
 
-            builder.Services.AddScoped<IEmployeeRepository , EmployeeRepository>();
-            builder.Services.AddScoped<IEmployeeService , EmployeeService>();
-
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
-            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
-
+            builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
