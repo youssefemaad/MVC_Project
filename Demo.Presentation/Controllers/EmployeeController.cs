@@ -40,6 +40,7 @@ namespace Demo.Presentation.Controllers
                         Age = employeeEditView.Age,
                         Name = employeeEditView.Name,
                         Email = employeeEditView.Email,
+                        Image = employeeEditView.Image,
                         Salary = employeeEditView.Salary,
                         DeptId = employeeEditView.DeptId,
                         Address = employeeEditView.Address,
@@ -47,7 +48,7 @@ namespace Demo.Presentation.Controllers
                         HiringDate = employeeEditView.HiringDate,
                         PhoneNumber = employeeEditView.PhoneNumber,
                         Gender = Enum.Parse<Gender>(employeeEditView.Gender.ToString()),
-                        EmployeeType = Enum.Parse<EmployeeType>(employeeEditView.EmployeeType.ToString())
+                        EmployeeType = Enum.Parse<EmployeeType>(employeeEditView.EmployeeType.ToString()),
                     };
                     int Result = employeeService.CreateEmployee(employeeDto);
                     if (Result > 0)

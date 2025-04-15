@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Demo.BusinessLogic.Services.AttatchementService;
 using Demo.BusinessLogic.Services.Interface;
 using Demo.DataAccess.Models;
 using Demo.DataAccess.Repositories.Interfaces;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper, IAttatchementService _attatchementService) : IEmployeeService
     {
         public IEnumerable<EmployeeDto> GetAllEmployees(string? employeeSearchName)
         {
@@ -46,6 +47,12 @@ namespace Demo.BusinessLogic.Services.Classes
         public int CreateEmployee(CreateEmployeeDto employeeDto)
         {
             var employee = _mapper.Map<CreateEmployeeDto, Employee>(employeeDto);
+
+            if(employeeDto.Image is not null)
+            {
+                employee.ImageName = _attatchementService.Upload(employeeDto.Image, "Images");
+            }
+
             _unitOfWork.EmployeeRepository.Add(employee);
             return _unitOfWork.SaveChanges();
 

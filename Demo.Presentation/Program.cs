@@ -1,4 +1,5 @@
 using Demo.BusinessLogic.Profiles;
+using Demo.BusinessLogic.Services.AttatchementService;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interface;
 using Demo.DataAccess.Data.DbContexts;
@@ -33,8 +34,10 @@ namespace Demo.Presentation
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
-            builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
-            
+            builder.Services.AddTransient<IAttatchementService, AttatchementService>();
+
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
+        
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
