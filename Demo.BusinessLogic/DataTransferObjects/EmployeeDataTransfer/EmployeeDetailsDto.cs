@@ -19,5 +19,6 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDataTransfer
         public DateTime LastModifiedOn { get; set; }
         public int? DeptId { get; set; }
         public string? Department { get; set; }
+        public string? Image { get; set; }
     }
 }
