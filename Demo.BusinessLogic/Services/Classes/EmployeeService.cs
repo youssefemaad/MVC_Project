@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Demo.BusinessLogic.Services.AttatchementService;
 using Demo.BusinessLogic.Services.Interface;
 using Demo.DataAccess.Models;
 using Demo.DataAccess.Repositories.Interfaces;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper, IAttatchementService _attatchementService) : IEmployeeService
     {
         public IEnumerable<EmployeeDto> GetAllEmployees(string? employeeSearchName)
         {
