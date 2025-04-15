@@ -20,5 +20,6 @@ namespace Demo.Presentation.ViewModels
 
         [Display(Name = "DepartmentId")]
         public int? DeptId { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }
