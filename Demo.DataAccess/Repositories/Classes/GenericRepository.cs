@@ -1,54 +1,57 @@
 ﻿using Demo.DataAccess.Data.DbContexts;
 using Demo.DataAccess.Models.Shared;
 using Demo.DataAccess.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Demo.DataAccess.Repositories.Classes
 {
-	public class GenericRepository<TEntity>(ApplicationDbContext _dbContext) : IGenericRepository<TEntity> where TEntity : BaseEntity
-	{
-		public int Add(TEntity entity)
-		{
-			_dbContext.Set<TEntity>().Add(entity);
-			return _dbContext.SaveChanges();
-		}
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
+    {
+        private readonly ApplicationDbContext _dbContext;
 
-		public IEnumerable<TEntity> GetAll(bool withTracking = false)
-		{
-			if (withTracking)
-				return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true).ToList();
-			else
-				return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true).AsNoTracking().ToList();
-		}
+        public GenericRepository(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
-		public TEntity? GetById(int id) => _dbContext.Set<TEntity>().Find(id);
+        public void Add(TEntity entity)
+        {
+            _dbContext.Set<TEntity>().Add(entity);
+            _dbContext.SaveChanges();
+        }
 
-		public int Remove(TEntity entity)
-		{
-			_dbContext.Set<TEntity>().Remove(entity);
-			return _dbContext.SaveChanges();
-		}
+        public IEnumerable<TEntity> GetAll(bool withTracking = false)
+        {
+            var query = _dbContext.Set<TEntity>().Where(e => !e.IsDeleted);
+            return withTracking ? query.ToList() : query.AsNoTracking().ToList();
+        }
 
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
+        {
+            throw new NotImplementedException();
+        }
 
-		public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
-		{
-			return _dbContext.Set<TEntity>()
-				.Where(e => !e.IsDeleted)
-				.Select(selector)
-				.ToList();
-		}
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
 
-		public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
-		{
-			return _dbContext.Set<TEntity>()
-				.Where(predicate)
-				.Where(e => !e.IsDeleted)
-				.ToList();
-		}
-		public int Update(TEntity entity)
-		{
-			_dbContext.Set<TEntity>().Update(entity);
-			return _dbContext.SaveChanges();
-		}
-	}
+        public TEntity? GetById(int id)
+        {
+            return _dbContext.Set<TEntity>().Find(id);
+        }
+
+        public void Remove(TEntity entity)
+        {
+            _dbContext.Set<TEntity>().Remove(entity);
+            _dbContext.SaveChanges();
+        }
+
+        public void Update(TEntity entity)
+        {
+            _dbContext.Set<TEntity>().Update(entity);
+            _dbContext.SaveChanges();
+        }
+    }
 }
