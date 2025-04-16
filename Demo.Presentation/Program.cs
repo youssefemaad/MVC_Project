@@ -57,7 +57,7 @@ namespace Demo.Presentation
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Application}/{action=Register}/{id?}");
 
             app.Run();
         }
