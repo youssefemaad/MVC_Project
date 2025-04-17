@@ -17,7 +17,11 @@
 
 <body>
     <!-- main -->
-    @RenderBody()
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    @RenderSection("Validation", required: false)
     <!-- //main -->
 </body>
 
