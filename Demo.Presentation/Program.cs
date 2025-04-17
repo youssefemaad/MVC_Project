@@ -19,8 +19,8 @@ namespace Demo.Presentation
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews(options => 
-            { 
+            builder.Services.AddControllersWithViews(options =>
+            {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
@@ -36,12 +36,16 @@ namespace Demo.Presentation
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddTransient<IAttatchementService, AttatchementService>();
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            {
+                opt.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
 
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
-        
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
