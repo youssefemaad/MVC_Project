@@ -8,16 +8,8 @@ using Demo.Presentation.Utilities;
 
 namespace Demo.Presentation.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager) : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
 
         // Register
         #region Register
@@ -105,11 +97,21 @@ namespace Demo.Presentation.Controllers
                         Subject = "Reset Password",
                         Body = "reset password link" //TODO: Generate a reset password link
                     };
+                    EmailSettings.SendEmail(email);
+                    return RedirectToAction("CheckYourInbox");
                 }
             }
             ModelState.AddModelError(string.Empty, "Invalid email address.");
             return View(nameof(ForgotPassword), forgetPasswordViewModel);
         }
+
+        #endregion
+
+        // Check Your Inbox
+        #region CheckYourInbox
+
+        [HttpGet]
+        public IActionResult CheckYourInbox() => View();
 
         #endregion
 
