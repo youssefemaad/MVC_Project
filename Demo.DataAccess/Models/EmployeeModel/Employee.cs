@@ -1,4 +1,5 @@
-﻿using Demo.DataAccess.Models.EmployeeModel;
+﻿using Demo.DataAccess.Models.DepartmentModel;
+using Demo.DataAccess.Models.EmployeeModel;
 using Demo.DataAccess.Models.Shared;
 using Demo.DataAccess.Models.Shared.Enums;
 using System;
@@ -26,8 +27,12 @@ namespace Demo.DataAccess.Models
 
 		public DateTime HiringDate { get; set; }
 
-		public Gender	Gender { get; set; }
+		public Gender Gender { get; set; }
 
 		public EmployeeType EmployeeType { get; set; }
-	}
+		public int? DeptId { get; set; }
+
+		public virtual Department? Department { get; set; }
+		public string? ImageName { get; set; }
+    }
 }

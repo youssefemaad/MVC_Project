@@ -1,5 +1,6 @@
 ﻿using Demo.BusinessLogic.DataTransferObjects;
-using Demo.BusinessLogic.Services;
+using Demo.BusinessLogic.DataTransferObjects.DepartmentDataTransfer;
+using Demo.BusinessLogic.Services.Interface;
 using Demo.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,20 +25,28 @@ namespace Demo.Presentation.Controllers
 
 
 		[HttpPost]
-		public IActionResult Create(CreatedDepartmentDto departmentDto)
+		public IActionResult Create(DepartmentEditViewModel departmentEditView)
 		{
 			if (ModelState.IsValid) // Server Side Validation
 			{
 				try
 				{
-					int Result = _departmentService.CreateDepartment(departmentDto);
+                    var departmentDto = new CreatedDepartmentDto()
+                    {
+                        Code = departmentEditView.Code,
+                        DateOfCreation = departmentEditView.DateOfCreation,
+                        Description = departmentEditView.Description,
+                        Name = departmentEditView.Name
+                    };
+					string Message;
+                    int Result = _departmentService.CreateDepartment(departmentDto);
 					if (Result > 0)
-						return RedirectToAction(nameof(Index));
-					else
-					{
-						ModelState.AddModelError(string.Empty, "Can't Create Department");
-					}
-				}
+						Message = $"Department {departmentEditView.Name} is Created Successfully";
+                    else
+                        Message = $"Department {departmentEditView.Name} is Not Created";
+                    TempData["Message"] = Message;
+                    return RedirectToAction(nameof(Index));
+                }
 				catch (Exception ex)
 				{
 
@@ -47,7 +56,7 @@ namespace Demo.Presentation.Controllers
 						_logger.LogError(ex.Message);
 				}
 			}
-			return View(departmentDto);
+			return View(departmentEditView);
 		}
 		#endregion
 
